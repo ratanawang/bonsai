@@ -1,16 +1,20 @@
 package bonsai;
+import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 public class BonsaiFrame extends javax.swing.JFrame {
     
     //variables
-    static String mystery = "highschool";
-    static String guess = "tsnobhm";
+    private String mystery = "highschool";
+    private String guess = "tsnobhm";
     private int guesses;
     private ArrayList<String> guessed;
 
     public BonsaiFrame() {
         initComponents();
+        getShowWord(mystery, guess);
+        drawBonsai();
     }
     
     public static String getShowWord(String m, String g) {
@@ -38,6 +42,13 @@ public class BonsaiFrame extends javax.swing.JFrame {
 //        g.setFont( new Font("Arial", Font.BOLD, 40));
 //        g.drawString("Hello", 200, 50);
 //    }
+    
+    public void drawBonsai() {
+        ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource("images/bonsai-5.png"));
+        Image img = icon.getImage();
+        img = img.getScaledInstance(labelImage.getWidth(), labelImage.getHeight(), Image.SCALE_SMOOTH);
+        labelImage.setIcon(new ImageIcon(img));
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -72,14 +83,15 @@ public class BonsaiFrame extends javax.swing.JFrame {
         buttonZ = new javax.swing.JButton();
         buttonWord = new javax.swing.JButton();
         panelText = new javax.swing.JPanel();
-        labelCoins = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         textInfo = new javax.swing.JTextArea();
         textCoins = new javax.swing.JTextField();
         buttonFertilizer = new javax.swing.JButton();
         buttonNewBonsai = new javax.swing.JButton();
         textWord = new javax.swing.JTextField();
+        buttonNewGame = new javax.swing.JButton();
         panelBonsai = new javax.swing.JPanel();
+        labelImage = new javax.swing.JLabel();
         panelTitle = new javax.swing.JPanel();
         labelBonsai = new javax.swing.JLabel();
         canvas1 = new java.awt.Canvas();
@@ -201,7 +213,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
                         .addComponent(buttonS, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonT, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLettersLayout.setVerticalGroup(
             panelLettersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,27 +243,25 @@ public class BonsaiFrame extends javax.swing.JFrame {
                     .addComponent(buttonS, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonT, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
-                .addGroup(panelLettersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonU, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonV, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonW, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonX, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonY, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonZ, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelLettersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelLettersLayout.createSequentialGroup()
                         .addComponent(buttonWord, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(panelLettersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(buttonU, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonV, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonW, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonX, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonY, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonZ, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
-
-        labelCoins.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelCoins.setText("COINS");
 
         textInfo.setColumns(20);
         textInfo.setRows(5);
         jScrollPane1.setViewportView(textInfo);
 
         textCoins.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        textCoins.setText("0");
+        textCoins.setText("Coins: 0");
 
         buttonFertilizer.setText("Fertilizer");
 
@@ -259,26 +269,26 @@ public class BonsaiFrame extends javax.swing.JFrame {
 
         textWord.setFont(new java.awt.Font("Lao MN", 0, 60)); // NOI18N
         textWord.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        textWord.setText("limit = 13");
+
+        buttonNewGame.setText("NEW GAME");
 
         javax.swing.GroupLayout panelTextLayout = new javax.swing.GroupLayout(panelText);
         panelText.setLayout(panelTextLayout);
         panelTextLayout.setHorizontalGroup(
             panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTextLayout.createSequentialGroup()
+            .addGroup(panelTextLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(textWord)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTextLayout.createSequentialGroup()
-                        .addGroup(panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(textCoins, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelCoins, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE))
+                .addGroup(panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTextLayout.createSequentialGroup()
+                        .addComponent(buttonNewGame, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buttonFertilizer, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textCoins, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buttonNewBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(buttonFertilizer, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(buttonNewBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
+                    .addComponent(textWord))
                 .addContainerGap())
         );
         panelTextLayout.setVerticalGroup(
@@ -288,30 +298,39 @@ public class BonsaiFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelTextLayout.createSequentialGroup()
-                        .addComponent(labelCoins)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textCoins, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(buttonNewGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelTextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(buttonFertilizer, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(buttonNewBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(textWord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(buttonNewBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(textCoins, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textWord))
         );
+
+        labelImage.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
+        labelImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panelBonsaiLayout = new javax.swing.GroupLayout(panelBonsai);
         panelBonsai.setLayout(panelBonsaiLayout);
         panelBonsaiLayout.setHorizontalGroup(
             panelBonsaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBonsaiLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         panelBonsaiLayout.setVerticalGroup(
             panelBonsaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelBonsaiLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        labelBonsai.setFont(new java.awt.Font("Papyrus", 0, 48)); // NOI18N
+        labelBonsai.setFont(new java.awt.Font("Papyrus", 0, 50)); // NOI18N
+        labelBonsai.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelBonsai.setText("Bonsai");
+        labelBonsai.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panelTitleLayout = new javax.swing.GroupLayout(panelTitle);
         panelTitle.setLayout(panelTitleLayout);
@@ -319,20 +338,24 @@ public class BonsaiFrame extends javax.swing.JFrame {
             panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTitleLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(labelBonsai, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        panelTitleLayout.setVerticalGroup(
-            panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTitleLayout.createSequentialGroup()
                 .addGroup(panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTitleLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelTitleLayout.createSequentialGroup()
+                        .addComponent(labelBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        panelTitleLayout.setVerticalGroup(
+            panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTitleLayout.createSequentialGroup()
+                .addGroup(panelTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelTitleLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(labelBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 50, Short.MAX_VALUE)))
+                        .addComponent(labelBonsai, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(panelTitleLayout.createSequentialGroup()
+                        .addGap(0, 80, Short.MAX_VALUE)
+                        .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -348,23 +371,19 @@ public class BonsaiFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelLetters, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(panelText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelLetters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelBonsai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(panelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelBonsai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelLetters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -399,7 +418,6 @@ public class BonsaiFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new BonsaiFrame().setVisible(true);
-                getShowWord(mystery, guess);
             }
             
         });
@@ -422,6 +440,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonM;
     private javax.swing.JButton buttonN;
     private javax.swing.JButton buttonNewBonsai;
+    private javax.swing.JButton buttonNewGame;
     private javax.swing.JButton buttonO;
     private javax.swing.JButton buttonP;
     private javax.swing.JButton buttonQ;
@@ -438,7 +457,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     private java.awt.Canvas canvas1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelBonsai;
-    private javax.swing.JLabel labelCoins;
+    private javax.swing.JLabel labelImage;
     private javax.swing.JPanel panelBonsai;
     private javax.swing.JPanel panelLetters;
     private javax.swing.JPanel panelText;
