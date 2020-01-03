@@ -1,29 +1,33 @@
 package bonsai;
 import java.awt.Image;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class BonsaiFrame extends javax.swing.JFrame {
     
     //variables
-    private String mystery = "highschool";
-    private String guess = "tsnobhm";
-    private int guesses;
-    private ArrayList<String> guessed;
+    private String word;  //pick random word from list
+    private String guess;
+    private int lives;
+    private int coins;
+    private final String[] imgs;
 
     public BonsaiFrame() {
+        this.imgs = new String[]{"images/bonsai-dead.png", "images/bonsai-1.png", 
+            "images/bonsai-2.png", "images/bonsai-3.png", "images/bonsai-4.png", 
+            "images/bonsai-5.png"};
         initComponents();
-        getShowWord(mystery, guess);
-        drawBonsai();
+        startNewGame();
+        textInfo.setText("Welcome to Bonsai.\nPlease keep your bonsai tree alive!\n"
+                + "Collect coins and buy a fertilizer (a hint) or a new bonsai\n"
+                + "tree (restart without losing coins) if you get stuck!");
     }
     
-    public static String getShowWord(String m, String g) {
+    public static String getShowWord(String w, String g) {
         //return what the user should see!
-        //ex. h--hs-hoo-
         String newstring = "";
-        for (int i = 0; i < m.length(); i ++) {
-            if (!g.contains(m.substring(i, i + 1))) {
-                newstring += m.substring(i, i + 1);
+        for (int i = 0; i < w.length(); i ++) {
+            if (g.contains(w.substring(i, i + 1))) {
+                newstring += w.substring(i, i + 1);
             }
             else {
                 newstring += "-";
@@ -33,21 +37,98 @@ public class BonsaiFrame extends javax.swing.JFrame {
         return newstring;
     }
     
-//    public void drawStuff() {
-//        Graphics g = panelDraw.getGraphics();
-//        g.setColor(Color.BLUE);
-//        g.fillRect(0, 0, panelDraw.getWidth(). panelDraw.getHeight());
-//        g.setColor(Color.WHITE);
-//        g.fillOval(100, 100, 30, 30);
-//        g.setFont( new Font("Arial", Font.BOLD, 40));
-//        g.drawString("Hello", 200, 50);
-//    }
-    
     public void drawBonsai() {
-        ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource("images/bonsai-5.png"));
+        ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource(imgs[lives]));
         Image img = icon.getImage();
         img = img.getScaledInstance(labelImage.getWidth(), labelImage.getHeight(), Image.SCALE_SMOOTH);
         labelImage.setIcon(new ImageIcon(img));
+    }
+    
+    public void startNewGame() {
+        //send out a confirmation message: are you sure you want to restart?
+        coins = 0;
+        lives = 5;
+        word = "abracadabra";
+        guess = "";
+        textInfo.setText("New game started. Good luck!");
+        textWord.setText(getShowWord(word, guess));
+        drawBonsai();
+        money();
+        allButtons(true);
+    }
+    
+    public void allButtons(boolean onf) {
+        buttonA.setEnabled(onf);
+        buttonB.setEnabled(onf);
+        buttonC.setEnabled(onf);
+        buttonD.setEnabled(onf);
+        buttonE.setEnabled(onf);
+        buttonF.setEnabled(onf);
+        buttonG.setEnabled(onf);
+        buttonH.setEnabled(onf);
+        buttonI.setEnabled(onf);
+        buttonJ.setEnabled(onf);
+        buttonK.setEnabled(onf);
+        buttonL.setEnabled(onf);
+        buttonM.setEnabled(onf);
+        buttonN.setEnabled(onf);
+        buttonO.setEnabled(onf);
+        buttonP.setEnabled(onf);
+        buttonQ.setEnabled(onf);
+        buttonR.setEnabled(onf);
+        buttonS.setEnabled(onf);
+        buttonT.setEnabled(onf);
+        buttonU.setEnabled(onf);
+        buttonV.setEnabled(onf);
+        buttonW.setEnabled(onf);
+        buttonX.setEnabled(onf);
+        buttonY.setEnabled(onf);
+        buttonZ.setEnabled(onf);
+        buttonWord.setEnabled(onf);
+    }
+    
+    public void pressButton(javax.swing.JButton b) {
+        String name = b.getActionCommand();
+        guess += name;
+        textInfo.setText("You guessed the letter " + name + "!\n");
+        b.setEnabled(false);
+        refresh(name);
+    }
+    
+    public void refresh(String name) {
+        textWord.setText(getShowWord(word, guess));
+        if (word.contains(name)) {
+            textInfo.setText(textInfo.getText() + "\nLucky! '" + name + "' was "
+                    + "in the word!");
+            coins += 1;
+        }
+        else {
+            lives -= 1;
+            if (!word.contains(name) && lives >= 1){
+                textInfo.setText(textInfo.getText() + "\nToo bad. Try again.");
+            }
+            else {
+                textInfo.setText("Your bonsai tree died. :(\nClick 'New Game' to"
+                        + " restart.");
+                //insert bonsai dead method
+            }
+        }
+        drawBonsai();
+        money();
+    }
+    
+    public void money() {
+        textCoins.setText("Coins: " + coins);
+        if (coins >= 3) {
+            buttonFertilizer.setEnabled(true);
+        }
+        else {
+            buttonFertilizer.setEnabled(false);
+            buttonNewBonsai.setEnabled(false);
+        }
+        if (coins >= 10) {
+            buttonNewBonsai.setEnabled(true);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -99,58 +180,215 @@ public class BonsaiFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         buttonA.setText("A");
+        buttonA.setActionCommand("a");
+        buttonA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAActionPerformed(evt);
+            }
+        });
 
         buttonC.setText("C");
+        buttonC.setActionCommand("c");
+        buttonC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCActionPerformed(evt);
+            }
+        });
 
         buttonB.setText("B");
+        buttonB.setActionCommand("b");
+        buttonB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBActionPerformed(evt);
+            }
+        });
 
         buttonE.setText("E");
+        buttonE.setActionCommand("e");
+        buttonE.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEActionPerformed(evt);
+            }
+        });
 
         buttonD.setText("D");
+        buttonD.setActionCommand("d");
+        buttonD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDActionPerformed(evt);
+            }
+        });
 
         buttonF.setText("F");
+        buttonF.setActionCommand("f");
+        buttonF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonFActionPerformed(evt);
+            }
+        });
 
         buttonG.setText("G");
+        buttonG.setActionCommand("g");
+        buttonG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonGActionPerformed(evt);
+            }
+        });
 
         buttonH.setText("H");
+        buttonH.setActionCommand("h");
+        buttonH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonHActionPerformed(evt);
+            }
+        });
 
         buttonI.setText("I");
+        buttonI.setActionCommand("i");
+        buttonI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonIActionPerformed(evt);
+            }
+        });
 
         buttonJ.setText("J");
+        buttonJ.setActionCommand("j");
+        buttonJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonJActionPerformed(evt);
+            }
+        });
 
         buttonK.setText("K");
+        buttonK.setActionCommand("k");
+        buttonK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonKActionPerformed(evt);
+            }
+        });
 
         buttonL.setText("L");
+        buttonL.setActionCommand("l");
+        buttonL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLActionPerformed(evt);
+            }
+        });
 
         buttonP.setText("P");
+        buttonP.setActionCommand("p");
+        buttonP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPActionPerformed(evt);
+            }
+        });
 
         buttonQ.setText("Q");
+        buttonQ.setActionCommand("q");
+        buttonQ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonQActionPerformed(evt);
+            }
+        });
 
         buttonR.setText("R");
+        buttonR.setActionCommand("r");
+        buttonR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRActionPerformed(evt);
+            }
+        });
 
         buttonS.setText("S");
+        buttonS.setActionCommand("s");
+        buttonS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSActionPerformed(evt);
+            }
+        });
 
         buttonT.setText("T");
+        buttonT.setActionCommand("t");
+        buttonT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonTActionPerformed(evt);
+            }
+        });
 
         buttonO.setText("O");
+        buttonO.setActionCommand("o");
+        buttonO.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOActionPerformed(evt);
+            }
+        });
 
         buttonM.setText("M");
+        buttonM.setActionCommand("m");
+        buttonM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMActionPerformed(evt);
+            }
+        });
 
         buttonN.setText(" N");
+        buttonN.setActionCommand(" n");
+        buttonN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNActionPerformed(evt);
+            }
+        });
 
         buttonU.setText("U");
+        buttonU.setActionCommand("u");
+        buttonU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonUActionPerformed(evt);
+            }
+        });
 
         buttonV.setText("V");
+        buttonV.setActionCommand("v");
+        buttonV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonVActionPerformed(evt);
+            }
+        });
 
         buttonW.setText("W");
+        buttonW.setActionCommand("w");
+        buttonW.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonWActionPerformed(evt);
+            }
+        });
 
         buttonX.setText("X");
+        buttonX.setActionCommand("x");
+        buttonX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonXActionPerformed(evt);
+            }
+        });
 
         buttonY.setText("Y");
+        buttonY.setActionCommand("y");
+        buttonY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonYActionPerformed(evt);
+            }
+        });
 
         buttonZ.setText("Z");
+        buttonZ.setActionCommand("z");
+        buttonZ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonZActionPerformed(evt);
+            }
+        });
 
         buttonWord.setText("GUESS THE ENTIRE WORD!");
+        buttonWord.setActionCommand("entireword");
 
         javax.swing.GroupLayout panelLettersLayout = new javax.swing.GroupLayout(panelLetters);
         panelLetters.setLayout(panelLettersLayout);
@@ -257,6 +495,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
         );
 
         textInfo.setColumns(20);
+        textInfo.setFont(new java.awt.Font("Papyrus", 0, 16)); // NOI18N
         textInfo.setRows(5);
         jScrollPane1.setViewportView(textInfo);
 
@@ -271,6 +510,11 @@ public class BonsaiFrame extends javax.swing.JFrame {
         textWord.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         buttonNewGame.setText("NEW GAME");
+        buttonNewGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNewGameActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelTextLayout = new javax.swing.GroupLayout(panelText);
         panelText.setLayout(panelTextLayout);
@@ -389,6 +633,115 @@ public class BonsaiFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewGameActionPerformed
+        //start a new game + reset everything
+        startNewGame();
+    }//GEN-LAST:event_buttonNewGameActionPerformed
+
+    private void buttonAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAActionPerformed
+        pressButton(buttonA);
+    }//GEN-LAST:event_buttonAActionPerformed
+
+    private void buttonBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBActionPerformed
+        pressButton(buttonB);
+    }//GEN-LAST:event_buttonBActionPerformed
+
+    private void buttonCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCActionPerformed
+        pressButton(buttonC);
+    }//GEN-LAST:event_buttonCActionPerformed
+
+    private void buttonDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDActionPerformed
+        pressButton(buttonD);
+    }//GEN-LAST:event_buttonDActionPerformed
+
+    private void buttonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEActionPerformed
+        pressButton(buttonE);
+    }//GEN-LAST:event_buttonEActionPerformed
+
+    private void buttonFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFActionPerformed
+        pressButton(buttonF);
+    }//GEN-LAST:event_buttonFActionPerformed
+
+    private void buttonGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGActionPerformed
+        pressButton(buttonG);
+    }//GEN-LAST:event_buttonGActionPerformed
+
+    private void buttonHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonHActionPerformed
+        pressButton(buttonH);
+    }//GEN-LAST:event_buttonHActionPerformed
+
+    private void buttonIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIActionPerformed
+        pressButton(buttonI);
+    }//GEN-LAST:event_buttonIActionPerformed
+
+    private void buttonJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonJActionPerformed
+        pressButton(buttonJ);
+    }//GEN-LAST:event_buttonJActionPerformed
+
+    private void buttonKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKActionPerformed
+        pressButton(buttonK);
+    }//GEN-LAST:event_buttonKActionPerformed
+
+    private void buttonLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLActionPerformed
+        pressButton(buttonL);
+    }//GEN-LAST:event_buttonLActionPerformed
+
+    private void buttonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMActionPerformed
+        pressButton(buttonM);
+    }//GEN-LAST:event_buttonMActionPerformed
+
+    private void buttonNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNActionPerformed
+        pressButton(buttonN);
+    }//GEN-LAST:event_buttonNActionPerformed
+
+    private void buttonOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOActionPerformed
+        pressButton(buttonO);
+    }//GEN-LAST:event_buttonOActionPerformed
+
+    private void buttonPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPActionPerformed
+        pressButton(buttonP);
+    }//GEN-LAST:event_buttonPActionPerformed
+
+    private void buttonQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonQActionPerformed
+        pressButton(buttonQ);
+    }//GEN-LAST:event_buttonQActionPerformed
+
+    private void buttonRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRActionPerformed
+        pressButton(buttonR);
+    }//GEN-LAST:event_buttonRActionPerformed
+
+    private void buttonSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSActionPerformed
+        pressButton(buttonS);
+    }//GEN-LAST:event_buttonSActionPerformed
+
+    private void buttonTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTActionPerformed
+        pressButton(buttonT);
+    }//GEN-LAST:event_buttonTActionPerformed
+
+    private void buttonUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUActionPerformed
+        pressButton(buttonU);
+    }//GEN-LAST:event_buttonUActionPerformed
+
+    private void buttonVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonVActionPerformed
+        pressButton(buttonV);
+    }//GEN-LAST:event_buttonVActionPerformed
+
+    private void buttonWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWActionPerformed
+        pressButton(buttonW);
+    }//GEN-LAST:event_buttonWActionPerformed
+
+    private void buttonXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXActionPerformed
+        pressButton(buttonX);
+    }//GEN-LAST:event_buttonXActionPerformed
+
+    private void buttonYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonYActionPerformed
+        pressButton(buttonY);
+    }//GEN-LAST:event_buttonYActionPerformed
+
+    private void buttonZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonZActionPerformed
+        pressButton(buttonZ);
+    }//GEN-LAST:event_buttonZActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -417,7 +770,9 @@ public class BonsaiFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BonsaiFrame().setVisible(true);
+                BonsaiFrame bf = new BonsaiFrame();
+                bf.setVisible(true);
+                bf.drawBonsai();
             }
             
         });
