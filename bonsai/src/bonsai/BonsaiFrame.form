@@ -412,6 +412,9 @@
             <Property name="text" type="java.lang.String" value="GUESS THE ENTIRE WORD!"/>
             <Property name="actionCommand" type="java.lang.String" value="entireword"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonWordActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

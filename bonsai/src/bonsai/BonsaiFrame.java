@@ -33,7 +33,6 @@ public class BonsaiFrame extends javax.swing.JFrame {
                 newstring += "-";
             }
         }
-        System.out.println(newstring);
         return newstring;
     }
     
@@ -55,6 +54,19 @@ public class BonsaiFrame extends javax.swing.JFrame {
         drawBonsai();
         money();
         allButtons(true);
+    }
+    
+    public void winner() {
+        coins += 5;
+        money();
+        allButtons(true);
+        lives = 5;
+        drawBonsai();
+        word = "alakazam";
+        guess = "";
+        textInfo.setText("Congratulations! You guessed the word.\n"
+                + "You've earned 5 coins. Play on!");
+        textWord.setText(getShowWord(word, guess));
     }
     
     public void allButtons(boolean onf) {
@@ -105,6 +117,9 @@ public class BonsaiFrame extends javax.swing.JFrame {
         else {
             lives -= 1;
             if (!word.contains(name) && lives >= 1){
+                if (name.length() > 1) {
+                    textInfo.setText("Sorry! That was not the correct word.");
+                }
                 textInfo.setText(textInfo.getText() + "\nToo bad. Try again.");
             }
             else {
@@ -115,6 +130,9 @@ public class BonsaiFrame extends javax.swing.JFrame {
         }
         drawBonsai();
         money();
+        if (getShowWord(word, guess).equals(word)) {
+            winner();
+        }
     }
     
     public void money() {
@@ -389,6 +407,11 @@ public class BonsaiFrame extends javax.swing.JFrame {
 
         buttonWord.setText("GUESS THE ENTIRE WORD!");
         buttonWord.setActionCommand("entireword");
+        buttonWord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonWordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLettersLayout = new javax.swing.GroupLayout(panelLetters);
         panelLetters.setLayout(panelLettersLayout);
@@ -634,8 +657,11 @@ public class BonsaiFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewGameActionPerformed
-        //start a new game + reset everything
-        startNewGame();
+        String choice = UserInput.getString("You are about to start a new game.\n"
+                + "You will lose all progress. Continue?\n(Y/N)");
+        if (choice.equals("Y")) {
+            startNewGame();
+        }
     }//GEN-LAST:event_buttonNewGameActionPerformed
 
     private void buttonAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAActionPerformed
@@ -742,6 +768,16 @@ public class BonsaiFrame extends javax.swing.JFrame {
         pressButton(buttonZ);
     }//GEN-LAST:event_buttonZActionPerformed
 
+    private void buttonWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWordActionPerformed
+        String gss = (UserInput.getString("Guess the entire word: ")).toLowerCase();
+        if (gss.equals(word)) {
+            winner();
+        }
+        else {
+            refresh(gss);
+        }
+    }//GEN-LAST:event_buttonWordActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -770,9 +806,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                BonsaiFrame bf = new BonsaiFrame();
-                bf.setVisible(true);
-                bf.drawBonsai();
+                new BonsaiFrame().setVisible(true);
             }
             
         });
