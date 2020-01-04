@@ -44,7 +44,6 @@ public class BonsaiFrame extends javax.swing.JFrame {
     }
     
     public void startNewGame() {
-        //send out a confirmation message: are you sure you want to restart?
         coins = 0;
         lives = 5;
         word = "abracadabra";
@@ -116,7 +115,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
         }
         else {
             lives -= 1;
-            if (!word.contains(name) && lives >= 1){
+            if (lives >= 1){
                 if (name.length() > 1) {
                     textInfo.setText("Sorry! That was not the correct word.");
                 }
@@ -125,7 +124,10 @@ public class BonsaiFrame extends javax.swing.JFrame {
             else {
                 textInfo.setText("Your bonsai tree died. :(\nClick 'New Game' to"
                         + " restart.");
-                //insert bonsai dead method
+                allButtons(false);
+                buttonFertilizer.setEnabled(false);
+                buttonNewBonsai.setEnabled(false);
+                coins = 0;
             }
         }
         drawBonsai();
@@ -526,8 +528,18 @@ public class BonsaiFrame extends javax.swing.JFrame {
         textCoins.setText("Coins: 0");
 
         buttonFertilizer.setText("Fertilizer");
+        buttonFertilizer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonFertilizerActionPerformed(evt);
+            }
+        });
 
         buttonNewBonsai.setText("New Bonsai");
+        buttonNewBonsai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNewBonsaiActionPerformed(evt);
+            }
+        });
 
         textWord.setFont(new java.awt.Font("Lao MN", 0, 60)); // NOI18N
         textWord.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -777,6 +789,36 @@ public class BonsaiFrame extends javax.swing.JFrame {
             refresh(gss);
         }
     }//GEN-LAST:event_buttonWordActionPerformed
+
+    private void buttonFertilizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFertilizerActionPerformed
+        String choice = UserInput.getString("Spend 3 coins on a hint?\n(Y/N)");
+        if (choice.equals("Y")) {
+            int i = (int)(Math.random()*word.length());
+            String hint = word.substring(i, i+1);
+            while (guess.contains(hint)) {
+                i = (int)(Math.random()*word.length());
+                hint = word.substring(i, i+1);
+            }
+            hint = hint.toUpperCase();
+            textInfo.setText("You bought Fertilizer '" + hint + "'!\nUse it now.");
+            coins -= 3;
+            money();
+        }
+    }//GEN-LAST:event_buttonFertilizerActionPerformed
+
+    private void buttonNewBonsaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewBonsaiActionPerformed
+        String choice = UserInput.getString("Spend 10 coins on a new bonsai?\n(Y/N)");
+        if (choice.equals("Y")) {
+            word = "achoo";
+            guess = "";
+            textWord.setText(getShowWord(word, guess));
+            textInfo.setText("You've bought a new bonsai. Good luck!");
+            coins -= 10;
+            money();
+            lives = 5;
+            drawBonsai();
+        }
+    }//GEN-LAST:event_buttonNewBonsaiActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
