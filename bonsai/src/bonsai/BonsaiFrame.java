@@ -10,6 +10,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     private int lives;
     private int coins;
     private final String[] imgs;
+    private WordManager wm = new WordManager();
 
     public BonsaiFrame() {
         this.imgs = new String[]{"images/bonsai-dead.png", "images/bonsai-1.png", 
@@ -46,7 +47,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     public void startNewGame() {
         coins = 0;
         lives = 5;
-        word = "abracadabra";
+        word = wm.getWord();
         guess = "";
         textInfo.setText("New game started. Good luck!");
         textWord.setText(getShowWord(word, guess));
@@ -61,7 +62,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
         allButtons(true);
         lives = 5;
         drawBonsai();
-        word = "alakazam";
+        word = wm.getWord();
         guess = "";
         textInfo.setText("Congratulations! You guessed the word.\n"
                 + "You've earned 5 coins. Play on!");
@@ -139,7 +140,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     
     public void money() {
         textCoins.setText("Coins: " + coins);
-        if (coins >= 3) {
+        if (coins >= 5) {
             buttonFertilizer.setEnabled(true);
         }
         else {
@@ -352,7 +353,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
         });
 
         buttonN.setText(" N");
-        buttonN.setActionCommand(" n");
+        buttonN.setActionCommand("n");
         buttonN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonNActionPerformed(evt);
@@ -791,7 +792,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonWordActionPerformed
 
     private void buttonFertilizerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonFertilizerActionPerformed
-        String choice = UserInput.getString("Spend 3 coins on a hint?\n(Y/N)");
+        String choice = UserInput.getString("Spend 5 coins on a hint?\n(Y/N)");
         if (choice.equals("Y")) {
             int i = (int)(Math.random()*word.length());
             String hint = word.substring(i, i+1);
@@ -801,7 +802,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
             }
             hint = hint.toUpperCase();
             textInfo.setText("You bought Fertilizer '" + hint + "'!\nUse it now.");
-            coins -= 3;
+            coins -= 5;
             money();
         }
     }//GEN-LAST:event_buttonFertilizerActionPerformed
@@ -809,7 +810,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
     private void buttonNewBonsaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewBonsaiActionPerformed
         String choice = UserInput.getString("Spend 10 coins on a new bonsai?\n(Y/N)");
         if (choice.equals("Y")) {
-            word = "achoo";
+            word = wm.getWord();
             guess = "";
             textWord.setText(getShowWord(word, guess));
             textInfo.setText("You've bought a new bonsai. Good luck!");
@@ -817,6 +818,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
             money();
             lives = 5;
             drawBonsai();
+            allButtons(true);
         }
     }//GEN-LAST:event_buttonNewBonsaiActionPerformed
 

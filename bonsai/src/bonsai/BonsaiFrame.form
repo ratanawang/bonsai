@@ -347,7 +347,7 @@
         <Component class="javax.swing.JButton" name="buttonN">
           <Properties>
             <Property name="text" type="java.lang.String" value=" N"/>
-            <Property name="actionCommand" type="java.lang.String" value=" n"/>
+            <Property name="actionCommand" type="java.lang.String" value="n"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonNActionPerformed"/>
