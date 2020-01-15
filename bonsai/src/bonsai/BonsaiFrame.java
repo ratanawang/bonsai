@@ -62,10 +62,11 @@ public class BonsaiFrame extends javax.swing.JFrame {
         allButtons(true);
         lives = 5;
         drawBonsai();
+        String oldWord = word;
         word = wm.getWord();
         guess = "";
-        textInfo.setText("Congratulations! You guessed the word.\n"
-                + "You've earned 5 coins. Play on!");
+        textInfo.setText("Congratulations! You guessed the word.\nIt was "
+                + oldWord + ".\nYou've earned 5 coins. Play on!");
         textWord.setText(getShowWord(word, guess));
     }
     
@@ -125,6 +126,7 @@ public class BonsaiFrame extends javax.swing.JFrame {
             else {
                 textInfo.setText("Your bonsai tree died. :(\nClick 'New Game' to"
                         + " restart.");
+                textInfo.setText(textInfo.getText() + "\nThe word was: " + word + ".");
                 allButtons(false);
                 buttonFertilizer.setEnabled(false);
                 buttonNewBonsai.setEnabled(false);
