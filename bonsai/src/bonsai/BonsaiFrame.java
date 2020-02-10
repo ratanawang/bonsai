@@ -142,15 +142,16 @@ public class BonsaiFrame extends javax.swing.JFrame {
     
     public void money() {
         textCoins.setText("Coins: " + coins);
-        if (coins >= 5) {
+        if (coins >= 10) {
             buttonFertilizer.setEnabled(true);
+            buttonNewBonsai.setEnabled(true);
+        }
+        else if (coins >= 5) {
+            buttonFertilizer.setEnabled(true);
+            buttonNewBonsai.setEnabled(false);
         }
         else {
             buttonFertilizer.setEnabled(false);
-            buttonNewBonsai.setEnabled(false);
-        }
-        if (coins >= 10) {
-            buttonNewBonsai.setEnabled(true);
         }
     }
 
